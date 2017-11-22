@@ -134,20 +134,20 @@ func (c *Client) GetJSON(ctx context.Context, config *APIConfig, apiReq apiReque
 	return json.NewDecoder(httpResp.Body).Decode(resp)
 }
 
-type binaryResponse struct {
-	statusCode  int
-	contentType string
-	data        io.ReadCloser
+type BinaryResponse struct {
+	StatusCode  int
+	ContentType string
+	Data        io.ReadCloser
 }
 
 // GetBinary returns binary data from the API endpoint
-func (c *Client) GetBinary(ctx context.Context, config *APIConfig, apiReq apiRequest) (binaryResponse, error) {
+func (c *Client) GetBinary(ctx context.Context, config *APIConfig, apiReq apiRequest) (BinaryResponse, error) {
 	httpResp, err := c.get(ctx, config, apiReq)
 	if err != nil {
-		return binaryResponse{}, err
+		return BinaryResponse{}, err
 	}
 
-	return binaryResponse{httpResp.StatusCode, httpResp.Header.Get("Content-Type"), httpResp.Body}, nil
+	return BinaryResponse{httpResp.StatusCode, httpResp.Header.Get("Content-Type"), httpResp.Body}, nil
 }
 
 func (c *Client) generateAuthQuery(path string, q url.Values) string {
